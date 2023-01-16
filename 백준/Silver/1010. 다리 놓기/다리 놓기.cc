@@ -1,6 +1,6 @@
 #include <iostream>
 
-int cache[1001][1001];
+int cache[31][31];
 int binomial_coefficient(int M, int N);
 
 int main() {
@@ -8,7 +8,7 @@ int main() {
   int N, M;
 
   std::cin >> T;
-  std::fill(&cache[0][0], &cache[1000][1001], -1);
+  std::fill(&cache[0][0], &cache[30][31], -1);
   while (T--) {
     std::cin >> N >> M;
     std::cout << binomial_coefficient(M, N) << '\n';
