@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 
 int N;
 int minus, zero, one;
