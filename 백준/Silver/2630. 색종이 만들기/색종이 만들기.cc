@@ -24,9 +24,6 @@ void check(int y, int x, int size) {
   for (int dy = y; dy < y + size; dy++) {
     for (int dx = x; dx < x + size; dx++) {
       if (color != board[dy][dx]) {
-        color = 2;
-      }
-      if (color == 2) {
         check(y, x, size / 2);
         check(y, x + size / 2, size / 2);
         check(y + size / 2, x, size / 2);
