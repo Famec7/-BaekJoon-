@@ -1,26 +1,28 @@
+#include <algorithm>
 #include <iostream>
-#include <map>
 #include <vector>
+
+int N, M;
+int count;
+std::vector<int> A(N);
 
 int main() {
   std::ios_base::sync_with_stdio(0);
   std::cin.tie(NULL);
-  int N, M;
   std::cin >> N;
+  A.resize(N);
+  for (int i = 0; i < N; i++)
+    std::cin >> A[i];
 
-  std::map<int, int> cards;
-  int tmp;
-  for (int i = 0; i < N; i++) {
-    std::cin >> tmp;
-    cards[tmp]++;
-  }
   std::cin >> M;
-  std::vector<int> num(M);
-  for (int i = 0; i < M; i++)
-    std::cin >> num[i];
-
-  for (int i = 0; i < M; i++)
-    std::cout << cards[num[i]] << ' ';
+  int B;
+  std::sort(A.begin(), A.end());
+  for (int i = 0; i < M; i++) {
+    std::cin >> B;
+    std::cout << std::upper_bound(A.begin(), A.end(), B) -
+                     std::lower_bound(A.begin(), A.end(), B)
+              << ' ';
+  }
   std::cout << '\n';
 
   return 0;
