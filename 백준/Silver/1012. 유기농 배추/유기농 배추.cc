@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <string>
 #include <vector>
 
 bool visited[50][50];
