@@ -1,25 +1,34 @@
-#include <bits/stdc++.h>
-using namespace std;
-int n, m, k;
-int path(int ja1, int ja2) {
-  int mo = ja1 + ja2;
-  long long ret = 1;
+#include <iostream>
+
+int cal_route(int col, int row) {
+  long long result = 1;
+
+  int end = col + row + 1;
   int j = 1;
-  for (int i = ja1 + 1; i <= mo; i++) {
-    ret *= i;
-    while (j <= ja2 && (ret % j == 0)) {
-      ret /= j++;
+  for (int i = col + 1; i < end; i++) {
+    result *= i;
+    while (j <= row && result % j == 0) {
+      result /= j;
+      j++;
     }
   }
-  ret = ret == 0 ? 1 : ret;
-  return ret;
+
+  return result;
 }
+
 int main() {
-  cin >> n >> m >> k;
-  k = k == 0 ? 0 : k - 1;
-  int x1 = k / m, y1 = k % m;
-  int x2 = n - 1 - x1, y2 = m - 1 - y1;
-  cout << path(x1, y1) * path(x2, y2);
+  int N = 0, M = 0, K = 0;
+  std::cin >> N >> M >> K;
+
+  K = K == 0 ? 0 : K - 1;
+  int K_col = K % M;
+  int K_row = K / M;
+
+  int K_to_M = (M - 1) - K_col;
+  int K_to_N = (N - 1) - K_row;
+
+  int result = cal_route(K_col, K_row) * cal_route(K_to_M, K_to_N);
+  std::cout << result << '\n';
 
   return 0;
 }
