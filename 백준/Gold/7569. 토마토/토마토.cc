@@ -1,17 +1,43 @@
 #include <iostream>
 #include <queue>
+#include <string>
 
-typedef struct {
-  int x, y, z;
-} dimension;
+typedef struct _Dimension {
+  int x;
+  int y;
+  int z;
+} Dimension;
 
-std::queue<dimension> q;
-int M, N, H, tomato[100][100][100], result;
-int dx[6] = {0, 0, 1, -1, 0, 0};
-int dy[6] = {-1, 1, 0, 0, 0, 0};
-int dz[6] = {0, 0, 0, 0, 1, -1};
+int N, M, H;
+int farm[100][100][100];
+int dx[6] = {-1, 1, 0, 0, 0, 0};
+int dy[6] = {0, 0, -1, 1, 0, 0};
+int dz[6] = {0, 0, 0, 0, -1, 1};
+std::queue<Dimension> container;
 
-void bfs();
+void bfs() {
+  while (not container.empty()) {
+    int cur_x = container.front().x;
+    int cur_y = container.front().y;
+    int cur_z = container.front().z;
+    container.pop();
+
+    for (int i = 0; i < 6; i++) {
+      int nx = cur_x + dx[i];
+      int ny = cur_y + dy[i];
+      int nz = cur_z + dz[i];
+
+      if (nx < 0 || nx >= M || ny < 0 || ny >= N || nz < 0 || nz >= H)
+        continue;
+
+      int &pos = farm[nz][ny][nx];
+      if (pos == 0) {
+        pos = farm[cur_z][cur_y][cur_x] + 1;
+        container.push({nx, ny, nz});
+      }
+    }
+  }
+}
 
 int main() {
   std::cin >> M >> N >> H;
@@ -19,22 +45,24 @@ int main() {
   for (int z = 0; z < H; z++) {
     for (int y = 0; y < N; y++) {
       for (int x = 0; x < M; x++) {
-        std::cin >> tomato[z][y][x];
-        if (tomato[z][y][x] == 1)
-          q.push({x, y, z});
+        std::cin >> farm[z][y][x];
+        if (farm[z][y][x] == 1)
+          container.push({x, y, z});
       }
     }
   }
 
   bfs();
+  int result = 0;
   for (int z = 0; z < H; z++) {
     for (int y = 0; y < N; y++) {
       for (int x = 0; x < M; x++) {
-        if (tomato[z][y][x] == 0) {
-          std::cout << "-1" << '\n';
+        if (farm[z][y][x] == 0) {
+          std::cout << "-1\n";
           return 0;
         }
-        result = std::max(result, tomato[z][y][x]);
+
+        result = std::max(result, farm[z][y][x]);
       }
     }
   }
@@ -42,27 +70,4 @@ int main() {
   std::cout << result - 1 << '\n';
 
   return 0;
-}
-
-void bfs() {
-  while (!q.empty()) {
-    int x = q.front().x;
-    int y = q.front().y;
-    int z = q.front().z;
-    q.pop();
-
-    for (int i = 0; i < 6; i++) {
-      int nx = x + dx[i];
-      int ny = y + dy[i];
-      int nz = z + dz[i];
-
-      if (nz < 0 || ny < 0 || nx < 0 || ny >= N || nx >= M || nz >= H)
-        continue;
-
-      if (tomato[nz][ny][nx] == 0) {
-        q.push({nx, ny, nz});
-        tomato[nz][ny][nx] = tomato[z][y][x] + 1;
-      }
-    }
-  }
 }
