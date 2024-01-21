@@ -61,16 +61,6 @@ void melt() {
   }
 }
 
-void print() {
-  std::cout << '\n';
-  for (int y = 0; y < N; y++) {
-    for (int x = 0; x < M; x++) {
-      std::cout << height[y][x] << ' ';
-    }
-    std::cout << '\n';
-  }
-}
-
 int main() {
   std::cin >> N >> M;
 
