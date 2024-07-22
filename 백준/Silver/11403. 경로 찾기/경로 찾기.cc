@@ -3,7 +3,6 @@
 
 int N;
 int graph[100][100];
-int result[100][100];
 
 void Input()
 {
@@ -18,42 +17,35 @@ void Input()
     }
 }
 
-void Bfs(int start)
+void FloydWarshall()
 {
-    std::queue<int> container;
-
-    container.push(start);
-
-    while (not container.empty())
+    // k : 거쳐가는 노드
+    for (int k = 0; k < N; k++)
     {
-        int cur = container.front();
-        container.pop();
-
-        for (int next = 0; next < N; next++)
+        // i : 출발 노드
+        for (int i = 0; i < N; i++)
         {
-            if (graph[cur][next] == 0)
-                continue;
-            if (result[start][next] == 1)
-                continue;
-
-            container.push(next);
-            result[start][next] = 1;
+            // j : 도착 노드
+            for (int j = 0; j < N; j++)
+            {
+                if (graph[i][k] and graph[k][j])
+                {
+                    graph[i][j] = 1;
+                }
+            }
         }
     }
 }
 
 void Solve()
 {
-    for (int i = 0; i < N; i++)
-    {
-        Bfs(i);
-    }
+    FloydWarshall();
 
     for (int y = 0; y < N; y++)
     {
         for (int x = 0; x < N; x++)
         {
-            std::cout << result[y][x] << ' ';
+            std::cout << graph[y][x] << ' ';
         }
         std::cout << '\n';
     }
